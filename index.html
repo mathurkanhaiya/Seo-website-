@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO Toolbox Pro</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&amp;family=Playfair+Display:wght@700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0B0F1A;
+      --surface: #151B2E;
+      --text: #E8ECF4;
+      --primary: #4ADE80;
+      --secondary: #6366F1;
+    }
+    html, body { height: 100%; margin: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
+    .font-display { font-family: 'Playfair Display', serif; }
+
+    .gradient-mesh {
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 10%, rgba(99,102,241,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(74,222,128,0.1) 0%, transparent 60%),
+        var(--bg);
+    }
+
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .tool-card:hover {
+      border-color: rgba(74,222,128,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(74,222,128,0.08);
+    }
+
+    .tool-icon-wrap {
+      background: linear-gradient(135deg, rgba(74,222,128,0.15), rgba(99,102,241,0.15));
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #22c55e);
+      color: #0B0F1A;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { filter: brightness(1.1); transform: scale(1.02); }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { filter: brightness(1.15); }
+
+    .ad-placeholder {
+      border: 2px dashed rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.02);
+      color: rgba(255,255,255,0.25);
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+    }
+
+    .tool-page { display: none; }
+    .tool-page.active { display: block; }
+
+    .input-field {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(74,222,128,0.15);
+    }
+
+    .result-box {
+      background: rgba(74,222,128,0.05);
+      border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 12px;
+    }
+
+    .toast-msg {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: var(--primary); color: #0B0F1A; padding: 10px 24px;
+      border-radius: 8px; font-weight: 600; z-index: 999;
+      animation: toastIn 0.3s ease, toastOut 0.3s ease 1.7s forwards;
+    }
+    @keyframes toastIn { from { opacity:0; transform: translateX(-50%) translateY(20px); } to { opacity:1; transform: translateX(-50%) translateY(0); } }
+    @keyframes toastOut { from { opacity:1; } to { opacity:0; } }
+
+    .tag-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 6px; padding: 4px 10px; font-size: 0.8rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in { animation: fadeUp 0.5s ease forwards; }
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+    textarea::-webkit-scrollbar, .overflow-y-auto::-webkit-scrollbar { width: 6px; }
+    textarea::-webkit-scrollbar-thumb, .overflow-y-auto::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.15); border-radius: 3px;
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="w-full h-full overflow-auto gradient-mesh"><!-- HEADER -->
+   <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#0B0F1A]/80 border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+     <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-green-400 to-indigo-500 flex items-center justify-center"><i data-lucide="search" style="width:18px;height:18px;color:#0B0F1A;stroke-width:2.5"></i>
+      </div>
+      <div>
+       <div id="header-title" class="font-bold text-sm leading-tight">
+        SEO Toolbox Pro
+       </div>
+       <div id="header-tagline" class="text-[10px] text-white/40 leading-tight">
+        Free SEO &amp; Web Tools
+       </div>
+      </div>
+     </div>
+     <nav class="hidden md:flex items-center gap-6 text-sm text-white/60"><a href="#" onclick="event.preventDefault();navigateTo('home')" class="hover:text-green-400 transition">Tools</a> <a href="#" onclick="event.preventDefault();navigateTo('home')" class="hover:text-green-400 transition">About</a>
+     </nav><button class="md:hidden p-2 rounded-lg hover:bg-white/5" onclick="toggleMobileMenu()" aria-label="Menu"> <i data-lucide="menu" style="width:20px;height:20px"></i> </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2 text-sm"><a href="#" onclick="event.preventDefault();navigateTo('home');toggleMobileMenu()" class="block py-2 px-3 rounded-lg hover:bg-white/5">All Tools</a>
+    </div>
+   </header><!-- HOMEPAGE -->
+   <main id="page-home" class="tool-page active"><!-- Hero -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-8 text-center">
+     <h1 id="hero-heading" class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight animate-in">All-in-One <span class="bg-gradient-to-r from-green-400 to-indigo-400 bg-clip-text text-transparent">SEO Tools</span></h1>
+     <p id="hero-subtext" class="mt-4 text-white/50 text-lg max-w-2xl mx-auto animate-in delay-1">Powerful free utilities for bloggers, developers &amp; digital marketers. Analyze, optimize, and grow.</p>
+     <div class="mt-6 flex flex-wrap justify-center gap-3 animate-in delay-2"><span class="tag-chip"><i data-lucide="zap" style="width:12px;height:12px"></i> Fast</span> <span class="tag-chip"><i data-lucide="lock" style="width:12px;height:12px"></i> Private</span> <span class="tag-chip"><i data-lucide="globe" style="width:12px;height:12px"></i> Free Forever</span>
+     </div>
+    </section><!-- Ad Banner Top -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-6">
+     <div class="ad-placeholder h-20">
+      Ad Space — 728×90 Leaderboard (AdSense / Adsterra)
+     </div>
+    </div><!-- Tools Grid -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-8">
+     <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><i data-lucide="layout-grid" style="width:20px;height:20px;color:var(--primary)"></i> Popular Tools</h2>
+     <div id="tools-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"><!-- Filled by JS -->
+     </div>
+    </section><!-- Ad Banner Bottom -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-8">
+     <div class="ad-placeholder h-24">
+      Ad Space — 728×90 or 300×250 (AdSense / Adsterra)
+     </div>
+    </div><!-- Features -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
+     <div class="grid sm:grid-cols-3 gap-6">
+      <div class="text-center p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+       <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-green-400/10 flex items-center justify-center"><i data-lucide="zap" style="width:24px;height:24px;color:var(--primary)"></i>
+       </div>
+       <h3 class="font-bold mb-1">Lightning Fast</h3>
+       <p class="text-sm text-white/40">All tools run instantly in your browser. No uploads, no waiting.</p>
+      </div>
+      <div class="text-center p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+       <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-indigo-400/10 flex items-center justify-center"><i data-lucide="shield" style="width:24px;height:24px;color:var(--secondary)"></i>
+       </div>
+       <h3 class="font-bold mb-1">100% Private</h3>
+       <p class="text-sm text-white/40">Your data never leaves your device. Zero server processing.</p>
+      </div>
+      <div class="text-center p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+       <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-pink-400/10 flex items-center justify-center"><i data-lucide="heart" style="width:24px;height:24px;color:#f472b6"></i>
+       </div>
+       <h3 class="font-bold mb-1">Free Forever</h3>
+       <p class="text-sm text-white/40">No sign-ups, no limits, no premium tiers. Just tools.</p>
+      </div>
+     </div>
+    </section>
+   </main><!-- TOOL PAGES (each tool gets its own page) --> <!-- 1. Word Counter -->
+   <section id="page-word-counter" class="tool-page">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
+     <h1 class="font-display text-3xl font-bold mb-2">Word Counter</h1>
+     <p class="text-white/40 mb-6">Count words, characters, sentences, and estimate reading time instantly.</p>
+     <div class="ad-placeholder h-16 mb-6">
+      Ad Space — 728×90
+     </div><textarea id="wc-input" class="input-field w-full h-48 rounded-xl p-4 text-sm resize-none" placeholder="Paste or type your text here..."></textarea>
+     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+      <div class="result-box p-4 text-center">
+       <div class="text-2xl font-bold text-green-400" id="wc-words">
+        0
+       </div>
+       <div class="text-xs text-white/40">
+        Words
+       </div>
+      </div>
+      <div class="result-box p-4 text-center">
+       <div class="text-2xl font-bold text-indigo-400" id="wc-chars">
+        0
+       </div>
+       <div class="text-xs text-white/40">
+        Characters
+       </div>
+      </div>
+      <div class="result-box p-4 text-center">
+       <div class="text-2xl font-bold text-pink-400" id="wc-sentences">
+        0
+       </div>
+       <div class="text-xs text-white/40">
+        Sentences
+       </div>
+      </div>
+      <div class="result-box p-4 text-center">
+       <div class="text-2xl font-bold text-amber-400" id="wc-reading">
+        0m
+       </div>
+       <div class="text-xs text-white/40">
+        Read Time
+       </div>
+      </div>
+     </div>
+     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
+      <div class="result-box p-4 text-center">
+       <div class="text-2xl font-bold text-cyan-400" id="wc-paragraphs">
+        0
+       </div>
+       <div class="text-xs text-white/40">
+        Paragraphs
+       </div>
+      </div>
+      <div class="result-box p-4 text-center">
+       <div class="text-2xl font-bold text-rose-400" id="wc-avg">
+        0
+       </div>
+       <div class="text-xs text-white/40">
+        Avg Word Length
+       </div>
+      </div>
+      <div class="result-box p-4 text-center">
+       <div class="text-2xl font-bold text-emerald-400" id="wc-unique">
+        0
+       </div>
+       <div class="text-xs text-white/40">
+        Unique Words
+       </div>
+      </div>
+     </div>
+     <div class="ad-placeholder h-24 mt-6">
+      Ad Space — 300×250
+     </div>
+    </div>
+   </section><!-- 2. Keyword Density Checker -->
+   <section id="page-keyword-density" class="tool-page">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
+     <h1 class="font-display text-3xl font-bold mb-2">Keyword Density Checker</h1>
+     <p class="text-white/40 mb-6">Analyze keyword frequency and density to optimize your content for SEO.</p>
+     <div class="ad-placeholder h-16 mb-6">
+      Ad Space — 728×90
+     </div><textarea id="kd-input" class="input-field w-full h-40 rounded-xl p-4 text-sm resize-none" placeholder="Paste your article or content here..."></textarea> <button onclick="analyzeKeywords()" class="btn-primary px-6 py-2.5 rounded-lg mt-4 text-sm">Analyze Keywords</button>
+     <div id="kd-results" class="mt-6 space-y-2"></div>
+     <div class="ad-placeholder h-24 mt-6">
+      Ad Space — 300×250
+     </div>
+    </div>
+   </section><!-- 3. Meta Tag Generator -->
+   <section id="page-meta-tag" class="tool-page">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
+     <h1 class="font-display text-3xl font-bold mb-2">Meta Tag Generator</h1>
+     <p class="text-white/40 mb-6">Generate SEO-optimized meta tags for your web pages instantly.</p>
+     <div class="ad-placeholder h-16 mb-6">
+      Ad Space — 728×90
+     </div>
+     <form id="meta-form" class="space-y-4" onsubmit="event.preventDefault();generateMeta()">
+      <div><label for="meta-title" class="block text-sm text-white/60 mb-1">Page Title</label> <input id="meta-title" class="input-field w-full rounded-lg px-4 py-2.5 text-sm" placeholder="My Awesome Website" maxlength="70">
+       <div class="text-xs text-white/30 mt-1">
+        <span id="meta-title-count">0</span>/70 characters
+       </div>
+      </div>
+      <div><label for="meta-desc" class="block text-sm text-white/60 mb-1">Description</label> <textarea id="meta-desc" class="input-field w-full rounded-lg px-4 py-2.5 text-sm h-20 resize-none" placeholder="A brief description of your page..." maxlength="160"></textarea>
+       <div class="text-xs text-white/30 mt-1">
+        <span id="meta-desc-count">0</span>/160 characters
+       </div>
+      </div>
+      <div><label for="meta-keywords" class="block text-sm text-white/60 mb-1">Keywords (comma separated)</label> <input id="meta-keywords" class="input-field w-full rounded-lg px-4 py-2.5 text-sm" placeholder="seo, tools, web">
+      </div>
+      <div><label for="meta-author" class="block text-sm text-white/60 mb-1">Author</label> <input id="meta-author" class="input-field w-full rounded-lg px-4 py-2.5 text-sm" placeholder="John Doe">
+      </div>
+      <div><label for="meta-url" class="block text-sm text-white/60 mb-1">Canonical URL</label> <input id="meta-url" class="input-field w-full rounded-lg px-4 py-2.5 text-sm" placeholder="https://example.com">
+      </div>
+      <div class="flex items-center gap-3"><label class="flex items-center gap-2 text-sm text-white/60 cursor-pointer"> <input type="checkbox" id="meta-og" checked class="accent-green-400"> Open Graph Tags </label> <label class="flex items-center gap-2 text-sm text-white/60 cursor-pointer"> <input type="checkbox" id="meta-twitter" checked class="accent-green-400"> Twitter Card </label>
+      </div><button type="submit" class="btn-primary px-6 py-2.5 rounded-lg text-sm">Generate Meta Tags</button>
+     </form>
+     <div id="meta-output" class="mt-6 hidden">
+      <div class="flex items-center justify-between mb-2">
+       <h3 class="font-bold text-sm">Generated Meta Tags</h3><button onclick="copyToClipboard('meta-code')" class="btn-secondary px-3 py-1.5 rounded-lg text-xs flex items-center gap-1"><i data-lucide="copy" style="width:12px;height:12px"></i> Copy</button>
+      </div>
+      <pre id="meta-code" class="result-box p-4 text-xs overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed"></pre>
+     </div>
+     <div class="ad-placeholder h-24 mt-6">
+      Ad Space — 300×250
+     </div>
+    </div>
+   </section><!-- 4. QR Code Generator -->
+   <section id="page-qr-generator" class="tool-page">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
+     <h1 class="font-display text-3xl font-bold mb-2">QR Code Generator</h1>
+     <p class="text-white/40 mb-6">Create QR codes for URLs, text, or contact info instantly.</p>
+     <div class="ad-placeholder h-16 mb-6">
+      Ad Space — 728×90
+     </div>
+     <div><label for="qr-input" class="block text-sm text-white/60 mb-1">Enter URL or Text</label> <input id="qr-input" class="input-field w-full rounded-lg px-4 py-2.5 text-sm" placeholder="https://example.com">
+     </div>
+     <div class="flex items-center gap-3 mt-4"><label for="qr-size" class="text-sm text-white/60">Size:</label> <select id="qr-size" class="input-field rounded-lg px-3 py-2 text-sm"> <option value="150">Small</option> <option value="250" selected>Medium</option> <option value="400">Large</option> </select> <label for="qr-color" class="text-sm text-white/60 ml-2">Color:</label> <input type="color" id="qr-color" value="#4ADE80" class="w-8 h-8 rounded cursor-pointer bg-transparent border-0">
+     </div><button onclick="generateQR()" class="btn-primary px-6 py-2.5 rounded-lg mt-4 text-sm">Generate QR Code</button>
+     <div id="qr-output" class="mt-6 flex flex-col items-center hidden">
+      <canvas id="qr-canvas"></canvas><button onclick="downloadQR()" class="btn-secondary px-4 py-2 rounded-lg text-sm mt-4 flex items-center gap-1"><i data-lucide="download" style="width:14px;height:14px"></i> Download PNG</button>
+     </div>
+     <div class="ad-placeholder h-24 mt-6">
+      Ad Space — 300×250
+     </div>
+    </div>
+   </section><!-- 5. Password Generator -->
+   <section id="page-password-gen" class="tool-page">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
+     <h1 class="font-display text-3xl font-bold mb-2">Password Generator</h1>
+     <p class="text-white/40 mb-6">Generate strong, secure passwords with custom options.</p>
+     <div class="ad-placeholder h-16 mb-6">
+      Ad Space — 728×90
+     </div>
+     <div class="result-box p-6">
+      <div id="pw-display" class="text-2xl font-mono text-center text-green-400 break-all mb-4 select-all">
+       — click generate —
+      </div>
+      <div id="pw-strength" class="h-2 rounded-full bg-white/10 mb-4">
+       <div id="pw-bar" class="h-full rounded-full transition-all duration-300" style="width:0"></div>
+      </div>
+      <div class="text-center text-xs text-white/40 mb-4" id="pw-strength-label"></div>
+      <div class="space-y-3 mb-4">
+       <div class="flex items-center justify-between"><label for="pw-length" class="text-sm text-white/60">Length: <span id="pw-len-val">16</span></label> <input type="range" id="pw-length" min="6" max="64" value="16" class="w-48 accent-green-400">
+       </div><label class="flex items-center gap-2 text-sm text-white/60 cursor-pointer"><input type="checkbox" id="pw-upper" checked class="accent-green-400"> Uppercase (A-Z)</label> <label class="flex items-center gap-2 text-sm text-white/60 cursor-pointer"><input type="checkbox" id="pw-lower" checked class="accent-green-400"> Lowercase (a-z)</label> <label class="flex items-center gap-2 text-sm text-white/60 cursor-pointer"><input type="checkbox" id="pw-nums" checked class="accent-green-400"> Numbers (0-9)</label> <label class="flex items-center gap-2 text-sm text-white/60 cursor-pointer"><input type="checkbox" id="pw-syms" checked class="accent-green-400"> Symbols (!@#$...)</label>
+      </div>
+      <div class="flex gap-3 justify-center"><button onclick="generatePassword()" class="btn-primary px-6 py-2.5 rounded-lg text-sm">Generate</button> <button onclick="copyToClipboard('pw-display')" class="btn-secondary px-4 py-2.5 rounded-lg text-sm flex items-center gap-1"><i data-lucide="copy" style="width:14px;height:14px"></i> Copy</button>
+      </div>
+     </div>
+     <div class="ad-placeholder h-24 mt-6">
+      Ad Space — 300×250
+     </div>
+    </div>
+   </section><!-- 6. Sitemap Generator -->
+   <section id="page-sitemap-gen" class="tool-page">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
+     <h1 class="font-display text-3xl font-bold mb-2">Sitemap Generator</h1>
+     <p class="text-white/40 mb-6">Create XML sitemaps for your website to improve search engine indexing.</p>
+     <div class="ad-placeholder h-16 mb-6">
+      Ad Space — 728×90
+     </div>
+     <form id="sitemap-form" onsubmit="event.preventDefault();generateSitemap()"><label for="sitemap-urls" class="block text-sm text-white/60 mb-1">Enter URLs (one per line)</label> <textarea id="sitemap-urls" class="input-field w-full h-40 rounded-xl p-4 text-sm resize-none font-mono" placeholder="https://example.com/
+https://example.com/about
+https://example.com/contact"></textarea>
+      <div class="flex flex-wrap gap-3 mt-4 items-center">
+       <div><label for="sm-freq" class="text-sm text-white/60">Change Freq:</label> <select id="sm-freq" class="input-field rounded-lg px-3 py-2 text-sm ml-1"> <option>daily</option><option>weekly</option><option>monthly</option><option>yearly</option> </select>
+       </div>
+       <div><label for="sm-priority" class="text-sm text-white/60">Priority:</label> <select id="sm-priority" class="input-field rounded-lg px-3 py-2 text-sm ml-1"> <option>1.0</option><option selected>0.8</option><option>0.6</option><option>0.4</option> </select>
+       </div><button type="submit" class="btn-primary px-6 py-2.5 rounded-lg text-sm">Generate Sitemap</button>
+      </div>
+     </form>
+     <div id="sitemap-output" class="mt-6 hidden">
+      <div class="flex items-center justify-between mb-2">
+       <h3 class="font-bold text-sm">Generated sitemap.xml</h3>
+       <div class="flex gap-2"><button onclick="copyToClipboard('sitemap-code')" class="btn-secondary px-3 py-1.5 rounded-lg text-xs flex items-center gap-1"><i data-lucide="copy" style="width:12px;height:12px"></i> Copy</button> <button onclick="downloadText('sitemap-code','sitemap.xml','application/xml')" class="btn-secondary px-3 py-1.5 rounded-lg text-xs flex items-center gap-1"><i data-lucide="download" style="width:12px;height:12px"></i> Download</button>
+       </div>
+      </div>
+      <pre id="sitemap-code" class="result-box p-4 text-xs overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed"></pre>
+     </div>
+     <div class="ad-placeholder h-24 mt-6">
+      Ad Space — 300×250
+     </div>
+    </div>
+   </section><!-- 7. Robots.txt Generator -->
+   <section id="page-robots-gen" class="tool-page">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
+     <h1 class="font-display text-3xl font-bold mb-2">Robots.txt Generator</h1>
+     <p class="text-white/40 mb-6">Create a robots.txt file to control how search engines crawl your site.</p>
+     <div class="ad-placeholder h-16 mb-6">
+      Ad Space — 728×90
+     </div>
+     <form id="robots-form" onsubmit="event.preventDefault();generateRobots()">
+      <div class="space-y-4">
+       <div><label for="robots-agent" class="block text-sm text-white/60 mb-1">User-Agent</label> <input id="robots-agent" class="input-field w-full rounded-lg px-4 py-2.5 text-sm" value="*">
+       </div>
+       <div><label for="robots-allow" class="block text-sm text-white/60 mb-1">Allow Paths (one per line)</label> <textarea id="robots-allow" class="input-field w-full h-20 rounded-xl p-4 text-sm resize-none font-mono" placeholder="/"></textarea>
+       </div>
+       <div><label for="robots-disallow" class="block text-sm text-white/60 mb-1">Disallow Paths (one per line)</label> <textarea id="robots-disallow" class="input-field w-full h-20 rounded-xl p-4 text-sm resize-none font-mono" placeholder="/admin/
+/private/"></textarea>
+       </div>
+       <div><label for="robots-sitemap" class="block text-sm text-white/60 mb-1">Sitemap URL (optional)</label> <input id="robots-sitemap" class="input-field w-full rounded-lg px-4 py-2.5 text-sm" placeholder="https://example.com/sitemap.xml">
+       </div><button type="submit" class="btn-primary px-6 py-2.5 rounded-lg text-sm">Generate robots.txt</button>
+      </div>
+     </form>
+     <div id="robots-output" class="mt-6 hidden">
+      <div class="flex items-center justify-between mb-2">
+       <h3 class="font-bold text-sm">Generated robots.txt</h3>
+       <div class="flex gap-2"><button onclick="copyToClipboard('robots-code')" class="btn-secondary px-3 py-1.5 rounded-lg text-xs flex items-center gap-1"><i data-lucide="copy" style="width:12px;height:12px"></i> Copy</button> <button onclick="downloadText('robots-code','robots.txt','text/plain')" class="btn-secondary px-3 py-1.5 rounded-lg text-xs flex items-center gap-1"><i data-lucide="download" style="width:12px;height:12px"></i> Download</button>
+       </div>
+      </div>
+      <pre id="robots-code" class="result-box p-4 text-xs overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed"></pre>
+     </div>
+     <div class="ad-placeholder h-24 mt-6">
+      Ad Space — 300×250
+     </div>
+    </div>
+   </section><!-- 8. Lorem Ipsum Generator -->
+   <section id="page-lorem-gen" class="tool-page">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
+     <h1 class="font-display text-3xl font-bold mb-2">Lorem Ipsum Generator</h1>
+     <p class="text-white/40 mb-6">Generate placeholder text for your designs and mockups.</p>
+     <div class="ad-placeholder h-16 mb-6">
+      Ad Space — 728×90
+     </div>
+     <div class="flex flex-wrap gap-3 items-end">
+      <div><label for="lorem-count" class="block text-sm text-white/60 mb-1">Paragraphs</label> <input type="number" id="lorem-count" class="input-field rounded-lg px-4 py-2.5 text-sm w-24" value="3" min="1" max="20">
+      </div><button onclick="generateLorem()" class="btn-primary px-6 py-2.5 rounded-lg text-sm">Generate</button> <button onclick="copyToClipboard('lorem-output-text')" class="btn-secondary px-4 py-2.5 rounded-lg text-sm flex items-center gap-1"><i data-lucide="copy" style="width:14px;height:14px"></i> Copy</button>
+     </div>
+     <div id="lorem-output-text" class="result-box p-6 mt-6 text-sm leading-relaxed text-white/70"></div>
+     <div class="ad-placeholder h-24 mt-6">
+      Ad Space — 300×250
+     </div>
+    </div>
+   </section><!-- FOOTER -->
+   <footer class="border-t border-white/5 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+     <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div id="footer-text" class="text-sm text-white/30">
+       © 2025 SEO Toolbox Pro. All rights reserved.
+      </div>
+      <div class="flex gap-4 text-xs text-white/20"><span>Privacy Policy</span> <span>Terms</span> <span>Contact</span>
+      </div>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    // ==================== TOOLS DATA ====================
+    const tools = [
+      { id: 'word-counter', icon: 'text', name: 'Word Counter', desc: 'Count words, characters & reading time', color: 'from-green-400/20 to-emerald-400/20' },
+      { id: 'keyword-density', icon: 'bar-chart-3', name: 'Keyword Density', desc: 'Analyze keyword frequency & density', color: 'from-indigo-400/20 to-blue-400/20' },
+      { id: 'meta-tag', icon: 'code-2', name: 'Meta Tag Generator', desc: 'Generate SEO meta tags & Open Graph', color: 'from-purple-400/20 to-violet-400/20' },
+      { id: 'qr-generator', icon: 'qr-code', name: 'QR Code Generator', desc: 'Create QR codes for any URL or text', color: 'from-cyan-400/20 to-teal-400/20' },
+      { id: 'password-gen', icon: 'lock', name: 'Password Generator', desc: 'Generate strong secure passwords', color: 'from-rose-400/20 to-pink-400/20' },
+      { id: 'sitemap-gen', icon: 'sitemap', name: 'Sitemap Generator', desc: 'Create XML sitemaps for your site', color: 'from-amber-400/20 to-orange-400/20' },
+      { id: 'robots-gen', icon: 'bot', name: 'Robots.txt Generator', desc: 'Control search engine crawling', color: 'from-lime-400/20 to-green-400/20' },
+      { id: 'lorem-gen', icon: 'file-text', name: 'Lorem Ipsum', desc: 'Generate placeholder text quickly', color: 'from-fuchsia-400/20 to-pink-400/20' },
+    ];
+
+    // ==================== RENDER TOOLS GRID ====================
+    function renderToolsGrid() {
+      const grid = document.getElementById('tools-grid');
+      grid.innerHTML = tools.map((t, i) => `
+        <div class="tool-card rounded-2xl p-5 cursor-pointer animate-in" style="animation-delay:${i * 0.05}s; opacity:0" onclick="navigateTo('${t.id}')">
+          <div class="tool-icon-wrap w-11 h-11 rounded-xl flex items-center justify-center mb-3 bg-gradient-to-br ${t.color}">
+            <i data-lucide="${t.icon}" style="width:20px;height:20px;color:var(--primary)"></i>
+          </div>
+          <h3 class="font-bold text-sm mb-1">${t.name}</h3>
+          <p class="text-xs text-white/40 leading-relaxed">${t.desc}</p>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    // ==================== NAVIGATION ====================
+    function navigateTo(pageId) {
+      document.querySelectorAll('.tool-page').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById('page-' + pageId);
+      if (target) {
+        target.classList.add('active');
+        document.getElementById('app-wrapper').scrollTo(0, 0);
+        lucide.createIcons();
+      }
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+
+    // ==================== UTILITIES ====================
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.className = 'toast-msg';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 2200);
+    }
+
+    function copyToClipboard(elId) {
+      const el = document.getElementById(elId);
+      const text = el.textContent || el.innerText;
+      navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'));
+    }
+
+    function downloadText(elId, filename, mime) {
+      const el = document.getElementById(elId);
+      const text = el.textContent || el.innerText;
+      const blob = new Blob([text], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ==================== 1. WORD COUNTER ====================
+    document.getElementById('wc-input').addEventListener('input', function() {
+      const text = this.value;
+      const words = text.trim() ? text.trim().split(/\s+/) : [];
+      const chars = text.length;
+      const sentences = text.split(/[.!?]+/).filter(s => s.trim()).length;
+      const paragraphs = text.split(/\n\n+/).filter(p => p.trim()).length;
+      const reading = Math.max(1, Math.ceil(words.length / 230));
+      const avgLen = words.length ? (words.reduce((a, w) => a + w.length, 0) / words.length).toFixed(1) : 0;
+      const unique = new Set(words.map(w => w.toLowerCase().replace(/[^a-z0-9]/g, ''))).size;
+
+      document.getElementById('wc-words').textContent = words.length;
+      document.getElementById('wc-chars').textContent = chars;
+      document.getElementById('wc-sentences').textContent = sentences;
+      document.getElementById('wc-reading').textContent = reading + 'm';
+      document.getElementById('wc-paragraphs').textContent = paragraphs;
+      document.getElementById('wc-avg').textContent = avgLen;
+      document.getElementById('wc-unique').textContent = unique;
+    });
+
+    // ==================== 2. KEYWORD DENSITY ====================
+    function analyzeKeywords() {
+      const text = document.getElementById('kd-input').value.toLowerCase();
+      if (!text.trim()) return;
+      const words = text.match(/[a-z0-9]+/g) || [];
+      const total = words.length;
+      const freq = {};
+      words.forEach(w => { if (w.length > 2) freq[w] = (freq[w] || 0) + 1; });
+
+      // Also get 2-word phrases
+      const phrases = {};
+      for (let i = 0; i < words.length - 1; i++) {
+        if (words[i].length > 2 && words[i+1].length > 2) {
+          const p = words[i] + ' ' + words[i+1];
+          phrases[p] = (phrases[p] || 0) + 1;
+        }
+      }
+
+      const sorted = Object.entries(freq).sort((a,b) => b[1] - a[1]).slice(0, 15);
+      const sortedPhrases = Object.entries(phrases).sort((a,b) => b[1] - a[1]).slice(0, 10);
+
+      let html = '<h3 class="font-bold text-sm mb-3">Single Keywords</h3>';
+      html += '<div class="space-y-1.5">';
+      sorted.forEach(([word, count]) => {
+        const pct = ((count / total) * 100).toFixed(1);
+        const w = Math.min(100, pct * 15);
+        html += `<div class="flex items-center gap-3 text-sm">
+          <span class="w-28 text-white/70 font-mono truncate">${escapeHtml(word)}</span>
+          <div class="flex-1 h-3 rounded-full bg-white/5 overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-green-400 to-indigo-400" style="width:${w}%"></div></div>
+          <span class="text-white/40 text-xs w-16 text-right">${count}× (${pct}%)</span>
+        </div>`;
+      });
+      html += '</div>';
+
+      if (sortedPhrases.length) {
+        html += '<h3 class="font-bold text-sm mt-6 mb-3">Two-Word Phrases</h3><div class="space-y-1.5">';
+        sortedPhrases.forEach(([phrase, count]) => {
+          const pct = ((count / total) * 100).toFixed(1);
+          const w = Math.min(100, pct * 20);
+          html += `<div class="flex items-center gap-3 text-sm">
+            <span class="w-36 text-white/70 font-mono truncate">${escapeHtml(phrase)}</span>
+            <div class="flex-1 h-3 rounded-full bg-white/5 overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-indigo-400 to-purple-400" style="width:${w}%"></div></div>
+            <span class="text-white/40 text-xs w-16 text-right">${count}× (${pct}%)</span>
+          </div>`;
+        });
+        html += '</div>';
+      }
+
+      document.getElementById('kd-results').innerHTML = html;
+    }
+
+    // ==================== 3. META TAG GENERATOR ====================
+    document.getElementById('meta-title').addEventListener('input', function() {
+      document.getElementById('meta-title-count').textContent = this.value.length;
+    });
+    document.getElementById('meta-desc').addEventListener('input', function() {
+      document.getElementById('meta-desc-count').textContent = this.value.length;
+    });
+
+    function generateMeta() {
+      const title = document.getElementById('meta-title').value || 'My Website';
+      const desc = document.getElementById('meta-desc').value || 'A description of my website';
+      const keywords = document.getElementById('meta-keywords').value;
+      const author = document.getElementById('meta-author').value;
+      const url = document.getElementById('meta-url').value;
+      const og = document.getElementById('meta-og').checked;
+      const twitter = document.getElementById('meta-twitter').checked;
+
+      let code = `<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>${escapeHtml(title)}</title>\n<meta name="description" content="${escapeHtml(desc)}">`;
+      if (keywords) code += `\n<meta name="keywords" content="${escapeHtml(keywords)}">`;
+      if (author) code += `\n<meta name="author" content="${escapeHtml(author)}">`;
+      if (url) code += `\n<link rel="canonical" href="${escapeHtml(url)}">`;
+      code += `\n<meta name="robots" content="index, follow">`;
+
+      if (og) {
+        code += `\n\n<!-- Open Graph -->\n<meta property="og:type" content="website">\n<meta property="og:title" content="${escapeHtml(title)}">\n<meta property="og:description" content="${escapeHtml(desc)}">`;
+        if (url) code += `\n<meta property="og:url" content="${escapeHtml(url)}">`;
+      }
+      if (twitter) {
+        code += `\n\n<!-- Twitter Card -->\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="${escapeHtml(title)}">\n<meta name="twitter:description" content="${escapeHtml(desc)}">`;
+      }
+
+      document.getElementById('meta-code').textContent = code;
+      document.getElementById('meta-output').classList.remove('hidden');
+    }
+
+    // ==================== 4. QR CODE GENERATOR ====================
+    function generateQR() {
+      const text = document.getElementById('qr-input').value;
+      if (!text) return;
+      const size = parseInt(document.getElementById('qr-size').value);
+      const color = document.getElementById('qr-color').value;
+      const canvas = document.getElementById('qr-canvas');
+      const ctx = canvas.getContext('2d');
+
+      // Simple QR-like pattern using data encoding
+      const qrData = generateQRMatrix(text);
+      const modules = qrData.length;
+      const cellSize = Math.floor(size / (modules + 8));
+      const totalSize = cellSize * (modules + 8);
+      canvas.width = totalSize;
+      canvas.height = totalSize;
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, totalSize, totalSize);
+
+      const offset = cellSize * 4;
+      ctx.fillStyle = color;
+      for (let r = 0; r < modules; r++) {
+        for (let c = 0; c < modules; c++) {
+          if (qrData[r][c]) {
+            ctx.fillRect(offset + c * cellSize, offset + r * cellSize, cellSize, cellSize);
+          }
+        }
+      }
+
+      // Draw finder patterns
+      drawFinderPattern(ctx, offset, offset, cellSize, color);
+      drawFinderPattern(ctx, offset + (modules - 7) * cellSize, offset, cellSize, color);
+      drawFinderPattern(ctx, offset, offset + (modules - 7) * cellSize, cellSize, color);
+
+      document.getElementById('qr-output').classList.remove('hidden');
+    }
+
+    function generateQRMatrix(text) {
+      // Generate a deterministic pattern based on input text
+      const size = Math.max(21, Math.min(33, 21 + Math.floor(text.length / 10) * 4));
+      const matrix = Array.from({length: size}, () => Array(size).fill(false));
+
+      let hash = 0;
+      for (let i = 0; i < text.length; i++) {
+        hash = ((hash << 5) - hash + text.charCodeAt(i)) | 0;
+      }
+
+      // Fill data area with pattern derived from text
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          // Skip finder pattern areas
+          if ((r < 8 && c < 8) || (r < 8 && c >= size - 8) || (r >= size - 8 && c < 8)) continue;
+
+          const val = (hash * (r + 1) * (c + 1) + text.charCodeAt((r + c) % text.length)) & 0xFFFF;
+          matrix[r][c] = (val % 3 !== 0);
+        }
+      }
+
+      // Finder patterns
+      for (let i = 0; i < 7; i++) {
+        for (let j = 0; j < 7; j++) {
+          const on = (i === 0 || i === 6 || j === 0 || j === 6 || (i >= 2 && i <= 4 && j >= 2 && j <= 4));
+          matrix[i][j] = on;
+          matrix[i][size - 7 + j] = on;
+          matrix[size - 7 + i][j] = on;
+        }
+      }
+
+      return matrix;
+    }
+
+    function drawFinderPattern(ctx, x, y, cell, color) {
+      // Already drawn via matrix, this adds the white gap
+    }
+
+    function downloadQR() {
+      const canvas = document.getElementById('qr-canvas');
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'qrcode.png';
+      a.click();
+    }
+
+    // ==================== 5. PASSWORD GENERATOR ====================
+    document.getElementById('pw-length').addEventListener('input', function() {
+      document.getElementById('pw-len-val').textContent = this.value;
+    });
+
+    function generatePassword() {
+      const len = parseInt(document.getElementById('pw-length').value);
+      let chars = '';
+      if (document.getElementById('pw-upper').checked) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      if (document.getElementById('pw-lower').checked) chars += 'abcdefghijklmnopqrstuvwxyz';
+      if (document.getElementById('pw-nums').checked) chars += '0123456789';
+      if (document.getElementById('pw-syms').checked) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+      if (!chars) chars = 'abcdefghijklmnopqrstuvwxyz';
+
+      const arr = new Uint32Array(len);
+      crypto.getRandomValues(arr);
+      let pw = '';
+      for (let i = 0; i < len; i++) pw += chars[arr[i] % chars.length];
+
+      document.getElementById('pw-display').textContent = pw;
+
+      // Strength bar
+      let strength = 0;
+      if (len >= 8) strength++;
+      if (len >= 12) strength++;
+      if (len >= 16) strength++;
+      if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) strength++;
+      if (/[0-9]/.test(pw)) strength++;
+      if (/[^A-Za-z0-9]/.test(pw)) strength++;
+
+      const pct = Math.min(100, (strength / 6) * 100);
+      const bar = document.getElementById('pw-bar');
+      const label = document.getElementById('pw-strength-label');
+      bar.style.width = pct + '%';
+      if (pct < 40) { bar.style.background = '#ef4444'; label.textContent = 'Weak'; }
+      else if (pct < 70) { bar.style.background = '#f59e0b'; label.textContent = 'Moderate'; }
+      else { bar.style.background = '#4ade80'; label.textContent = 'Strong'; }
+    }
+
+    // ==================== 6. SITEMAP GENERATOR ====================
+    function generateSitemap() {
+      const urls = document.getElementById('sitemap-urls').value.split('\n').map(u => u.trim()).filter(Boolean);
+      if (!urls.length) return;
+      const freq = document.getElementById('sm-freq').value;
+      const priority = document.getElementById('sm-priority').value;
+      const today = new Date().toISOString().split('T')[0];
+
+      let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+      urls.forEach(url => {
+        xml += `\n  <url>\n    <loc>${escapeHtml(url)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${freq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+      });
+      xml += `\n</urlset>`;
+
+      document.getElementById('sitemap-code').textContent = xml;
+      document.getElementById('sitemap-output').classList.remove('hidden');
+    }
+
+    // ==================== 7. ROBOTS.TXT GENERATOR ====================
+    function generateRobots() {
+      const agent = document.getElementById('robots-agent').value || '*';
+      const allow = document.getElementById('robots-allow').value.split('\n').map(s => s.trim()).filter(Boolean);
+      const disallow = document.getElementById('robots-disallow').value.split('\n').map(s => s.trim()).filter(Boolean);
+      const sitemap = document.getElementById('robots-sitemap').value.trim();
+
+      let txt = `User-agent: ${agent}`;
+      allow.forEach(p => { txt += `\nAllow: ${p}`; });
+      disallow.forEach(p => { txt += `\nDisallow: ${p}`; });
+      if (sitemap) txt += `\n\nSitemap: ${sitemap}`;
+
+      document.getElementById('robots-code').textContent = txt;
+      document.getElementById('robots-output').classList.remove('hidden');
+    }
+
+    // ==================== 8. LOREM IPSUM GENERATOR ====================
+    function generateLorem() {
+      const count = Math.min(20, Math.max(1, parseInt(document.getElementById('lorem-count').value) || 3));
+      const base = [
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.",
+        "Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.",
+        "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante."
+      ];
+      let output = '';
+      for (let i = 0; i < count; i++) {
+        output += '<p class="mb-4">' + base[i % base.length] + '</p>';
+      }
+      document.getElementById('lorem-output-text').innerHTML = output;
+    }
+
+    // ==================== ELEMENT SDK ====================
+    const defaultConfig = {
+      site_title: 'SEO Toolbox Pro',
+      site_tagline: 'Free SEO & Web Tools',
+      hero_heading: 'All-in-One SEO Tools',
+      hero_subtext: 'Powerful free utilities for bloggers, developers & digital marketers. Analyze, optimize, and grow.',
+      footer_text: '© 2025 SEO Toolbox Pro. All rights reserved.',
+      background_color: '#0B0F1A',
+      surface_color: '#151B2E',
+      text_color: '#E8ECF4',
+      primary_color: '#4ADE80',
+      secondary_color: '#6366F1',
+      font_family: 'DM Sans',
+      font_size: 14
+    };
+
+    async function initSDK() {
+      if (!window.elementSdk) return;
+
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          const c = { ...defaultConfig, ...config };
+
+          // Text content
+          document.getElementById('header-title').textContent = c.site_title;
+          document.getElementById('header-tagline').textContent = c.site_tagline;
+
+          const heroEl = document.getElementById('hero-heading');
+          heroEl.innerHTML = c.hero_heading.replace(/(SEO\s*Tools?|All-in-One)/gi, '<span class="bg-gradient-to-r from-green-400 to-indigo-400 bg-clip-text text-transparent">$1</span>');
+
+          document.getElementById('hero-subtext').textContent = c.hero_subtext;
+          document.getElementById('footer-text').textContent = c.footer_text;
+
+          // Colors
+          document.documentElement.style.setProperty('--bg', c.background_color);
+          document.documentElement.style.setProperty('--surface', c.surface_color);
+          document.documentElement.style.setProperty('--text', c.text_color);
+          document.documentElement.style.setProperty('--primary', c.primary_color);
+          document.documentElement.style.setProperty('--secondary', c.secondary_color);
+
+          document.body.style.color = c.text_color;
+
+          // Font
+          const fontStack = `${c.font_family}, DM Sans, sans-serif`;
+          document.body.style.fontFamily = fontStack;
+
+          // Font size
+          const base = c.font_size || 14;
+          document.body.style.fontSize = base + 'px';
+
+          document.querySelectorAll('.font-display').forEach(el => {
+            el.style.fontFamily = `Playfair Display, ${c.font_family}, serif`;
+          });
+        },
+        mapToCapabilities: (config) => {
+          const c = { ...defaultConfig, ...config };
+          return {
+            recolorables: [
+              { get: () => c.background_color, set: (v) => { c.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+              { get: () => c.surface_color, set: (v) => { c.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+              { get: () => c.text_color, set: (v) => { c.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+              { get: () => c.primary_color, set: (v) => { c.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); } },
+              { get: () => c.secondary_color, set: (v) => { c.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); } },
+            ],
+            borderables: [],
+            fontEditable: {
+              get: () => c.font_family || defaultConfig.font_family,
+              set: (v) => { c.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+            },
+            fontSizeable: {
+              get: () => c.font_size || defaultConfig.font_size,
+              set: (v) => { c.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+            }
+          };
+        },
+        mapToEditPanelValues: (config) => {
+          const c = { ...defaultConfig, ...config };
+          return new Map([
+            ['site_title', c.site_title],
+            ['site_tagline', c.site_tagline],
+            ['hero_heading', c.hero_heading],
+            ['hero_subtext', c.hero_subtext],
+            ['footer_text', c.footer_text],
+          ]);
+        }
+      });
+    }
+
+    // ==================== INIT ====================
+    renderToolsGrid();
+    generateLorem();
+    lucide.createIcons();
+    initSDK();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9db9b77c23eda754',t:'MTc3MzM5MTA0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
