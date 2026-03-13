@@ -4,15 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SEO Toolbox Pro</title>
-  
-  <!-- Google AdSense Script -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6294674848935133"
-crossorigin="anonymous"></script
-
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,400&amp;family=Playfair+Display:wght@700;800&amp;display=swap" rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx" crossorigin="anonymous"></script>
   <style>
     :root {
       --bg: #0B0F1A;
@@ -74,6 +70,13 @@ crossorigin="anonymous"></script
       border-radius: 8px;
     }
 
+    .ad-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100px;
+    }
+
     .tool-page { display: none; }
     .tool-page.active { display: block; }
 
@@ -123,6 +126,13 @@ crossorigin="anonymous"></script
     textarea::-webkit-scrollbar-thumb, .overflow-y-auto::-webkit-scrollbar-thumb {
       background: rgba(255,255,255,0.15); border-radius: 3px;
     }
+
+    /* AdSense responsive styling */
+    .ad-wrapper-728 { display: flex; justify-content: center; margin: 1.5rem 0; min-height: 100px; }
+    .ad-wrapper-300 { display: flex; justify-content: center; margin: 1.5rem 0; min-height: 250px; }
+    @media (max-width: 768px) {
+      .ad-wrapper-728 { min-height: 280px; }
+    }
   </style>
   <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -157,8 +167,11 @@ crossorigin="anonymous"></script
      </div>
     </section><!-- Ad Banner Top -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-6">
-     <div class="ad-placeholder h-20">
-      Ad Space — 728×90 Leaderboard (AdSense / Adsterra)
+     <div class="ad-wrapper-728">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="1111111111"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
     </div><!-- Tools Grid -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-8">
@@ -167,8 +180,11 @@ crossorigin="anonymous"></script
      </div>
     </section><!-- Ad Banner Bottom -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-8">
-     <div class="ad-placeholder h-24">
-      Ad Space — 728×90 or 300×250 (AdSense / Adsterra)
+     <div class="ad-wrapper-728">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="2222222222"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
     </div><!-- Features -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
@@ -198,8 +214,11 @@ crossorigin="anonymous"></script
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
      <h1 class="font-display text-3xl font-bold mb-2">Word Counter</h1>
      <p class="text-white/40 mb-6">Count words, characters, sentences, and estimate reading time instantly.</p>
-     <div class="ad-placeholder h-16 mb-6">
-      Ad Space — 728×90
+     <div class="ad-wrapper-728">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="3333333333"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div><textarea id="wc-input" class="input-field w-full h-48 rounded-xl p-4 text-sm resize-none" placeholder="Paste or type your text here..."></textarea>
      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
       <div class="result-box p-4 text-center">
@@ -261,8 +280,11 @@ crossorigin="anonymous"></script
        </div>
       </div>
      </div>
-     <div class="ad-placeholder h-24 mt-6">
-      Ad Space — 300×250
+     <div class="ad-wrapper-300 mt-6">
+      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="4444444444"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
     </div>
    </section><!-- 2. Keyword Density Checker -->
@@ -270,12 +292,18 @@ crossorigin="anonymous"></script
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
      <h1 class="font-display text-3xl font-bold mb-2">Keyword Density Checker</h1>
      <p class="text-white/40 mb-6">Analyze keyword frequency and density to optimize your content for SEO.</p>
-     <div class="ad-placeholder h-16 mb-6">
-      Ad Space — 728×90
+     <div class="ad-wrapper-728">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="5555555555"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div><textarea id="kd-input" class="input-field w-full h-40 rounded-xl p-4 text-sm resize-none" placeholder="Paste your article or content here..."></textarea> <button onclick="analyzeKeywords()" class="btn-primary px-6 py-2.5 rounded-lg mt-4 text-sm">Analyze Keywords</button>
      <div id="kd-results" class="mt-6 space-y-2"></div>
-     <div class="ad-placeholder h-24 mt-6">
-      Ad Space — 300×250
+     <div class="ad-wrapper-300 mt-6">
+      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="6666666666"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
     </div>
    </section><!-- 3. Meta Tag Generator -->
@@ -283,8 +311,11 @@ crossorigin="anonymous"></script
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
      <h1 class="font-display text-3xl font-bold mb-2">Meta Tag Generator</h1>
      <p class="text-white/40 mb-6">Generate SEO-optimized meta tags for your web pages instantly.</p>
-     <div class="ad-placeholder h-16 mb-6">
-      Ad Space — 728×90
+     <div class="ad-wrapper-728">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="7777777777"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
      <form id="meta-form" class="space-y-4" onsubmit="event.preventDefault();generateMeta()">
       <div><label for="meta-title" class="block text-sm text-white/60 mb-1">Page Title</label> <input id="meta-title" class="input-field w-full rounded-lg px-4 py-2.5 text-sm" placeholder="My Awesome Website" maxlength="70">
@@ -312,8 +343,11 @@ crossorigin="anonymous"></script
       </div>
       <pre id="meta-code" class="result-box p-4 text-xs overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed"></pre>
      </div>
-     <div class="ad-placeholder h-24 mt-6">
-      Ad Space — 300×250
+     <div class="ad-wrapper-300 mt-6">
+      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="8888888888"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
     </div>
    </section><!-- 4. QR Code Generator -->
@@ -321,8 +355,11 @@ crossorigin="anonymous"></script
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
      <h1 class="font-display text-3xl font-bold mb-2">QR Code Generator</h1>
      <p class="text-white/40 mb-6">Create QR codes for URLs, text, or contact info instantly.</p>
-     <div class="ad-placeholder h-16 mb-6">
-      Ad Space — 728×90
+     <div class="ad-wrapper-728">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="9999999999"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
      <div><label for="qr-input" class="block text-sm text-white/60 mb-1">Enter URL or Text</label> <input id="qr-input" class="input-field w-full rounded-lg px-4 py-2.5 text-sm" placeholder="https://example.com">
      </div>
@@ -331,8 +368,11 @@ crossorigin="anonymous"></script
      <div id="qr-output" class="mt-6 flex flex-col items-center hidden">
       <canvas id="qr-canvas"></canvas><button onclick="downloadQR()" class="btn-secondary px-4 py-2 rounded-lg text-sm mt-4 flex items-center gap-1"><i data-lucide="download" style="width:14px;height:14px"></i> Download PNG</button>
      </div>
-     <div class="ad-placeholder h-24 mt-6">
-      Ad Space — 300×250
+     <div class="ad-wrapper-300 mt-6">
+      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="1010101010"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
     </div>
    </section><!-- 5. Password Generator -->
@@ -340,8 +380,11 @@ crossorigin="anonymous"></script
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
      <h1 class="font-display text-3xl font-bold mb-2">Password Generator</h1>
      <p class="text-white/40 mb-6">Generate strong, secure passwords with custom options.</p>
-     <div class="ad-placeholder h-16 mb-6">
-      Ad Space — 728×90
+     <div class="ad-wrapper-728">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="1111111111"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
      <div class="result-box p-6">
       <div id="pw-display" class="text-2xl font-mono text-center text-green-400 break-all mb-4 select-all">
@@ -358,8 +401,11 @@ crossorigin="anonymous"></script
       <div class="flex gap-3 justify-center"><button onclick="generatePassword()" class="btn-primary px-6 py-2.5 rounded-lg text-sm">Generate</button> <button onclick="copyToClipboard('pw-display')" class="btn-secondary px-4 py-2.5 rounded-lg text-sm flex items-center gap-1"><i data-lucide="copy" style="width:14px;height:14px"></i> Copy</button>
       </div>
      </div>
-     <div class="ad-placeholder h-24 mt-6">
-      Ad Space — 300×250
+     <div class="ad-wrapper-300 mt-6">
+      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="1212121212"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
     </div>
    </section><!-- 6. Sitemap Generator -->
@@ -367,8 +413,11 @@ crossorigin="anonymous"></script
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
      <h1 class="font-display text-3xl font-bold mb-2">Sitemap Generator</h1>
      <p class="text-white/40 mb-6">Create XML sitemaps for your website to improve search engine indexing.</p>
-     <div class="ad-placeholder h-16 mb-6">
-      Ad Space — 728×90
+     <div class="ad-wrapper-728">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="1313131313"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
      <form id="sitemap-form" onsubmit="event.preventDefault();generateSitemap()"><label for="sitemap-urls" class="block text-sm text-white/60 mb-1">Enter URLs (one per line)</label> <textarea id="sitemap-urls" class="input-field w-full h-40 rounded-xl p-4 text-sm resize-none font-mono" placeholder="https://example.com/
 https://example.com/about
@@ -388,8 +437,11 @@ https://example.com/contact"></textarea>
       </div>
       <pre id="sitemap-code" class="result-box p-4 text-xs overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed"></pre>
      </div>
-     <div class="ad-placeholder h-24 mt-6">
-      Ad Space — 300×250
+     <div class="ad-wrapper-300 mt-6">
+      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="1414141414"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
     </div>
    </section><!-- 7. Robots.txt Generator -->
@@ -397,8 +449,11 @@ https://example.com/contact"></textarea>
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
      <h1 class="font-display text-3xl font-bold mb-2">Robots.txt Generator</h1>
      <p class="text-white/40 mb-6">Create a robots.txt file to control how search engines crawl your site.</p>
-     <div class="ad-placeholder h-16 mb-6">
-      Ad Space — 728×90
+     <div class="ad-wrapper-728">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="1515151515"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
      <form id="robots-form" onsubmit="event.preventDefault();generateRobots()">
       <div class="space-y-4">
@@ -421,8 +476,11 @@ https://example.com/contact"></textarea>
       </div>
       <pre id="robots-code" class="result-box p-4 text-xs overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed"></pre>
      </div>
-     <div class="ad-placeholder h-24 mt-6">
-      Ad Space — 300×250
+     <div class="ad-wrapper-300 mt-6">
+      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="1616161616"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
     </div>
    </section><!-- 8. Lorem Ipsum Generator -->
@@ -430,16 +488,22 @@ https://example.com/contact"></textarea>
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8"><button onclick="navigateTo('home')" class="flex items-center gap-1 text-sm text-white/40 hover:text-green-400 mb-6 transition"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Back to Tools</button>
      <h1 class="font-display text-3xl font-bold mb-2">Lorem Ipsum Generator</h1>
      <p class="text-white/40 mb-6">Generate placeholder text for your designs and mockups.</p>
-     <div class="ad-placeholder h-16 mb-6">
-      Ad Space — 728×90
+     <div class="ad-wrapper-728">
+      <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="1717171717"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
      <div class="flex flex-wrap gap-3 items-end">
       <div><label for="lorem-count" class="block text-sm text-white/60 mb-1">Paragraphs</label> <input type="number" id="lorem-count" class="input-field rounded-lg px-4 py-2.5 text-sm w-24" value="3" min="1" max="20">
       </div><button onclick="generateLorem()" class="btn-primary px-6 py-2.5 rounded-lg text-sm">Generate</button> <button onclick="copyToClipboard('lorem-output-text')" class="btn-secondary px-4 py-2.5 rounded-lg text-sm flex items-center gap-1"><i data-lucide="copy" style="width:14px;height:14px"></i> Copy</button>
      </div>
      <div id="lorem-output-text" class="result-box p-6 mt-6 text-sm leading-relaxed text-white/70"></div>
-     <div class="ad-placeholder h-24 mt-6">
-      Ad Space — 300×250
+     <div class="ad-wrapper-300 mt-6">
+      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-xxxxxxxxxxxxxxxx" data-ad-slot="1818181818"></ins>
+      <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
      </div>
     </div>
    </section><!-- FOOTER -->
@@ -902,5 +966,5 @@ https://example.com/contact"></textarea>
     lucide.createIcons();
     initSDK();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9db9b77c23eda754',t:'MTc3MzM5MTA0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dba2f0b41c7a754',t:'MTc3MzM5NTk0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
